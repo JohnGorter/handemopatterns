@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <!-- The core Firebase JS SDK is always required and must be listed first -->
+    <script src="https://www.gstatic.com/firebasejs/7.5.2/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.5.2/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.5.2/firebase-auth.js"></script>
+
+    <!-- TODO: Add SDKs for Firebase products that you want to use
+        https://firebase.google.com/docs/web/setup#available-libraries -->
+
+    <script>
+    // Your web app's Firebase configuration
+    var firebaseConfig = {
+        apiKey: "AIzaSyDyzdR_qn6CX1fX0P1155kdR3njcujDgmk",
+        authDomain: "todoapp-7013c.firebaseapp.com",
+        databaseURL: "https://todoapp-7013c.firebaseio.com",
+        projectId: "todoapp-7013c",
+        storageBucket: "todoapp-7013c.appspot.com",
+        messagingSenderId: "68039088359",
+        appId: "1:68039088359:web:2363e58342118a98eeaa42"
+    };
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    </script>
+</head>
+<body>
+
+    Model <input type="text" name="model" id="model"/>
+    <button id="btnSave">Save</button>
+
+    <script>
+
+        document.querySelector("#btnSave").addEventListener('click', ()=>{
+            firebase.database().ref('/cars/car').set({
+                model: document.querySelector("#model").value,
+                make: "Merc"
+            });
+        });
+        var provider = new firebase.auth.GoogleAuthProvider();
+        firebase.auth().signInWithPopup(provider).then(function(result) {
+            // This gives you a Google Access Token. You can use it to access the Google API.
+            var token = result.credential.accessToken;
+            // The signed-in user info.
+            var user = result.user;
+            console.log("user", user);
+            // ...
+        });
+        firebase.database().ref("/cars").on('value', (data) => {
+            console.log(data.val());
+        })
+        
+    </script>
+</body>
+</html>
